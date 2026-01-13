@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sit Daily — Daily meditation, together</title>
+  <meta name="description" content="Sit Daily is a quiet, live daily meditation practice room for consistency. No teaching. No discussion. Mic off, camera optional." />
+
+  <!-- Open Graph (optional but nice for sharing) -->
+  <meta property="og:title" content="Sit Daily" />
+  <meta property="og:description" content="A quiet, live daily meditation practice room for consistency." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sitdaily.com" />
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.09);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --faint: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.12);
+      --accent: #b7f7d8;
+      --accent2:#8bdcff;
+      --shadow: 0 18px 60px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1080px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(139,220,255,0.18), transparent 55%),
+                  radial-gradient(900px 700px at 85% 20%, rgba(183,247,216,0.16), transparent 55%),
+                  radial-gradient(1000px 800px at 50% 95%, rgba(183,247,216,0.12), transparent 60%),
+                  var(--bg);
+      line-height: 1.55;
+    }
+
+    a{color:inherit}
+    .wrap{max-width: var(--max); margin:0 auto; padding: 22px 18px 90px;}
+    .nav{
+      position: sticky; top: 0;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,18,32,0.85), rgba(11,18,32,0.65));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 50;
+    }
+    .nav-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+    }
+    .logo{
+      width: 34px; height:34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(183,247,216,0.95), rgba(139,220,255,0.95));
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+    }
+    .brand span{
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+    .nav-links{
+      display:flex; align-items:center; gap: 14px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      border-color: rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      text-decoration:none;
+      color: var(--text);
+      font-weight: 620;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+    }
+    .btn:hover{background: rgba(255,255,255,0.10)}
+    .btn.primary{
+      border-color: rgba(183,247,216,0.30);
+      background: linear-gradient(135deg, rgba(183,247,216,0.20), rgba(139,220,255,0.14));
+    }
+    .btn.primary:hover{
+      background: linear-gradient(135deg, rgba(183,247,216,0.28), rgba(139,220,255,0.20));
+    }
+
+    .hero{
+      padding: 46px 0 18px;
+      display:grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 920px){
+      .hero{grid-template-columns: 1fr; padding-top: 34px;}
+    }
+
+    .pill{
+      display:inline-flex; gap:10px; align-items:center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      width: fit-content;
+    }
+    .pill .dot{
+      width: 8px; height: 8px; border-radius: 99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 6px rgba(183,247,216,0.08);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(2.15rem, 3.2vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      margin: 10px 0 18px;
+      font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+      color: var(--muted);
+      max-width: 60ch;
+    }
+    .hero-cta{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top: 18px;
+    }
+
+    .hero-card{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-card .inner{
+      padding: 18px;
+    }
+    .stat{
+      display:flex; gap: 12px; align-items:flex-start;
+      padding: 14px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat:first-child{border-top:none; padding-top: 0;}
+    .icon{
+      width: 36px; height: 36px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+    }
+    .stat strong{display:block; font-size: 0.98rem}
+    .stat span{display:block; color: var(--faint); font-size: 0.92rem; margin-top: 2px}
+
+    .section{
+      margin-top: 34px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    .section h2{
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .section p{margin: 10px 0; color: var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .card{
+      grid-column: span 4;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    @media (max-width: 920px){
+      .card{grid-column: span 12;}
+    }
+    .card h3{
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .card p{margin: 6px 0 0; color: var(--faint); font-size: 0.95rem}
+    .kicker{
+      font-size: 0.95rem;
+      color: var(--faint);
+      margin-top: 6px;
+    }
+
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    @media (max-width: 920px){
+      .two{grid-template-columns: 1fr;}
+    }
+
+    .callout{
+      background: linear-gradient(135deg, rgba(183,247,216,0.16), rgba(139,220,255,0.10));
+      border: 1px solid rgba(183,247,216,0.22);
+      border-radius: var(--radius2);
+      padding: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+      margin-top: 18px;
+    }
+    .callout strong{font-size: 1.05rem}
+    .callout p{margin: 8px 0 0; color: var(--muted)}
+
+    .pricing{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 14px;
+    }
+    @media (max-width: 920px){
+      .pricing{grid-template-columns: 1fr;}
+    }
+    .price-box{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius2);
+      padding: 18px;
+    }
+    .price{
+      font-size: 2.1rem;
+      font-weight: 720;
+      margin: 6px 0 2px;
+      letter-spacing: -0.02em;
+    }
+    .small{
+      color: var(--faint);
+      font-size: 0.92rem;
+    }
+    ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    li{margin: 8px 0}
+    .faq{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    details{
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+    summary{
+      cursor:pointer;
+      font-weight: 650;
+      color: var(--text);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{margin: 10px 0 0; color: var(--muted)}
+    .footer{
+      margin-top: 46px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.62);
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .fine{
+      font-size: 0.9rem;
+    }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.65);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Sit Daily home">
+        <div class="logo" aria-hidden="true">
+          <!-- simple mark -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3c4.8 0 9 3.9 9 9.1 0 5.2-4.2 8.9-9 8.9S3 17.3 3 12.1C3 6.9 7.2 3 12 3Z" stroke="rgba(11,18,32,0.9)" stroke-width="1.8"/>
+            <path d="M7.2 12.2c1.9-2.8 7.7-2.8 9.6 0" stroke="rgba(11,18,32,0.9)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Sit Daily</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#formats">Formats</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#pricing">Membership</a>
+        <a class="btn primary" href="mailto:hello@sitdaily.com?subject=Sit%20Daily%20%E2%80%94%20Request%20details">Request details</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap" id="top">
+    <section class="hero">
+      <div>
+        <div class="pill"><span class="dot"></span> Quiet practice infrastructure for daily consistency</div>
+        <h1>Meditate daily. Together.</h1>
+        <p class="lead">
+          Sit Daily is a scheduled live room for people who already believe in meditation —
+          and want it to become a daily habit. No teaching. No discussion. Mic off, camera optional.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="mailto:hello@sitdaily.com?subject=Sit%20Daily%20%E2%80%94%20I%20want%20to%20join&body=Hi%20Sit%20Daily%2C%0A%0AI%E2%80%99m%20interested%20in%20joining.%20My%20timezone%20is%20____%20and%20my%20preferred%20time%20is%20____.%0A%0AThanks!">Join / request access</a>
+          <a class="btn" href="#how">See how it works</a>
+        </div>
+
+        <p class="kicker">
+          Designed for people who value structure, consistency, and simplicity. If you’re looking for free content,
+          guided instruction, or a social community — this isn’t a fit (by design).
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="Quick overview">
+        <div class="inner">
+          <div class="stat">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 7v6l4 2" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="rgba(255,255,255,0.65)" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div>
+              <strong>20 minutes</strong>
+              <span>Fixed start. Clean finish. No drift.</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M9 9l6 6" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M15 9l-6 6" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="rgba(255,255,255,0.65)" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div>
+              <strong>No facilitation</strong>
+              <span>No teaching, no sharing, no performance.</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h10v10H7z" stroke="rgba(255,255,255,0.65)" stroke-width="1.8"/>
+                <path d="M10 12h4" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Choice of format</strong>
+              <span>Guided + music, music only, or silent timer.</span>
+            </div>
+          </div>
+
+          <div class="callout">
+            <strong>Like a gym for consistency</strong>
+            <p>
+              You don’t join for motivation. You join for a place that makes showing up automatic.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="how">
+      <h2>How it works</h2>
+      <p>
+        Sit Daily is intentionally simple. A Session Steward is present for timing and technical support — not instruction.
+        You arrive, you sit, you leave.
+      </p>
+
+      <div class="grid" role="list">
+        <div class="card" role="listitem">
+          <h3>1) Choose a time</h3>
+          <p>Pick a session that fits your day. Consistency beats intensity.</p>
+        </div>
+        <div class="card" role="listitem">
+          <h3>2) Join the room</h3>
+          <p>Mic off by default. Camera optional. We start exactly on time.</p>
+        </div>
+        <div class="card" role="listitem">
+          <h3>3) Sit for 20 minutes</h3>
+          <p>Guided + music, music only, or silent timer — you choose.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="formats">
+      <h2>Session formats</h2>
+      <p>Choose your style without explanation. No one is asked to share. No one is evaluated.</p>
+
+      <div class="two">
+        <div class="card">
+          <h3>Guided + music</h3>
+          <p>Minimal guidance paired with calm audio. Best if you want a gentle structure.</p>
+        </div>
+        <div class="card">
+          <h3>Music only</h3>
+          <p>Steady soundscape, no voice. For people who want presence without narration.</p>
+        </div>
+        <div class="card">
+          <h3>Silent timer</h3>
+          <p>Pure practice. A simple timer holds the container while you do your own method.</p>
+        </div>
+        <div class="card">
+          <h3>Quiet by design</h3>
+          <p>No discussion before/after. This keeps the space professional and low-friction.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="schedule">
+      <h2>Schedule</h2>
+      <p>
+        Start with one or two daily times and expand as demand grows. Replace the placeholders below with your real times.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Morning (CET)</h3>
+          <p><span class="mono">07:00 CET</span> <span class="small">/ 01:00 ET</span></p>
+        </div>
+        <div class="card">
+          <h3>Midday (CET)</h3>
+          <p><span class="mono">12:30 CET</span> <span class="small">/ 06:30 ET</span></p>
+        </div>
+        <div class="card">
+          <h3>Evening (CET)</h3>
+          <p><span class="mono">20:30 CET</span> <span class="small">/ 14:30 ET</span></p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Time zones</strong>
+        <p>
+          Times are shown in CET and ET for convenience. Once you request access, you’ll receive a calendar link so it lands correctly in your local time.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <h2>Membership</h2>
+      <p>
+        This is a paid practice container. Pricing is intentionally simple to keep the culture clean and the sessions reliable.
+      </p>
+
+      <div class="pricing">
+        <div class="price-box">
+          <div class="small">Monthly membership</div>
+          <div class="price">€30<span class="small">/month</span></div>
+          <div class="small">Cancel anytime</div>
+          <ul>
+            <li>Access to all daily sessions</li>
+            <li>Choose: guided + music, music only, or silent timer</li>
+            <li>Session Steward for timing + technical support</li>
+            <li>Quiet structure (no discussion, no teaching)</li>
+          </ul>
+          <div style="margin-top:16px;">
+            <a class="btn primary" href="mailto:hello@sitdaily.com?subject=Sit%20Daily%20%E2%80%94%20Membership%20request&body=Hi%20Sit%20Daily%2C%0A%0AI%E2%80%99d%20like%20to%20join.%20My%20timezone%20is%20____%20and%20my%20preferred%20session%20time%20is%20____.%0A%0AThank%20you.">Request membership</a>
+          </div>
+        </div>
+
+        <div class="price-box">
+          <div class="small">Optional (if you’re piloting)</div>
+          <div class="price">€15<span class="small">/14 days</span></div>
+          <div class="small">Low-friction trial of the structure</div>
+          <ul>
+            <li>Try the daily rhythm before committing</li>
+            <li>See what happens when time is fixed</li>
+            <li>Best for “I know meditation works, I just don’t do it daily”</li>
+          </ul>
+          <div class="callout" style="margin-top:14px;">
+            <strong>Note</strong>
+            <p>
+              If you’re not willing to pay for consistency, you’re not our audience — and that’s okay.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>Do I have to turn my camera on?</summary>
+          <p>No. Camera is optional. This is designed to be low-pressure.</p>
+        </details>
+
+        <details>
+          <summary>Do people talk or share?</summary>
+          <p>No. The room is intentionally quiet. We don’t do check-ins, reflections, or discussions.</p>
+        </details>
+
+        <details>
+          <summary>Is this guided meditation?</summary>
+          <p>Sometimes (minimally). But the core value is the daily container and shared presence, not content.</p>
+        </details>
+
+        <details>
+          <summary>What if I miss a day?</summary>
+          <p>Just return the next day. No guilt, no restart, no “streak culture.”</p>
+        </details>
+
+        <details>
+          <summary>Who is this for?</summary>
+          <p>People who value structure and want meditation to become daily—especially those with busy lives and high cognitive load.</p>
+        </details>
+      </div>
+
+      <div class="callout">
+        <strong>Ready?</strong>
+        <p>
+          Request access and tell us your time zone + preferred time. You’ll receive schedule details and a calendar link.
+        </p>
+        <div style="margin-top:12px;">
+          <a class="btn primary" href="mailto:hello@sitdaily.com?subject=Sit%20Daily%20%E2%80%94%20Request%20access">Request access</a>
+          <a class="btn" href="#top" style="margin-left:8px;">Back to top</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="fine">© <span id="year"></span> Sit Daily · sitdaily.com</div>
+      <div class="fine">Contact: <a href="mailto:hello@sitdaily.com">hello@sitdaily.com</a></div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
